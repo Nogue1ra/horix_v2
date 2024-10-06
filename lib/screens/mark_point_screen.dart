@@ -10,8 +10,7 @@ class MarkPointScreen extends StatefulWidget {
 }
 
 class _MarkPointScreenState extends State<MarkPointScreen> {
-  String locationMessage = "";
-  String timestampMessage = "";
+  bool _showMessage = false; // Controla a exibição da mensagem
 
   Future<void> _markPoint() async {
     bool serviceEnabled;
@@ -35,7 +34,6 @@ class _MarkPointScreenState extends State<MarkPointScreen> {
     }
 
     Position position = await Geolocator.getCurrentPosition(
-      // ignore: deprecated_member_use
       desiredAccuracy: LocationAccuracy.high,
     );
 
@@ -49,9 +47,14 @@ class _MarkPointScreenState extends State<MarkPointScreen> {
     );
 
     setState(() {
-      locationMessage =
-          "Latitude: ${position.latitude}, Longitude: ${position.longitude}";
-      timestampMessage = "Horário: ${now.hour}:${now.minute}:${now.second}";
+      _showMessage = true; // Exibe a mensagem de sucesso
+    });
+
+    // Oculta a mensagem após 3 segundos
+    Future.delayed(Duration(seconds: 3), () {
+      setState(() {
+        _showMessage = false;
+      });
     });
   }
 
@@ -65,12 +68,38 @@ class _MarkPointScreenState extends State<MarkPointScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text(locationMessage),
-            Text(timestampMessage),
+            // Removido os Texts que exibem a latitude, longitude e horário
+            SizedBox(height: 20), // Espaçamento entre os textos e o botão
             ElevatedButton(
               onPressed: _markPoint,
-              child: Text('Registrar Ponto'),
+              style: ElevatedButton.styleFrom(
+                minimumSize: Size(100, 100), // Tamanho mínimo do botão
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8), // Borda arredondada
+                ),
+                padding: EdgeInsets.all(20), // Padding para aumentar o botão
+              ),
+              child: Text(
+                'Registrar Ponto',
+                style: TextStyle(
+                  fontSize: 20, // Aumenta o tamanho da letra
+                ),
+              ),
             ),
+            SizedBox(height: 20), // Espaçamento
+            // Mensagem de sucesso
+            if (_showMessage)
+              Container(
+                padding: EdgeInsets.all(12),
+                color: Colors.green,
+                child: Text(
+                  "Ponto registrado com sucesso!",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                  ),
+                ),
+              ),
           ],
         ),
       ),

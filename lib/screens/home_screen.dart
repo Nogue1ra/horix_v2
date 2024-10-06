@@ -20,8 +20,18 @@ class HomeScreen extends StatelessWidget {
                   MaterialPageRoute(builder: (context) => MarkPointScreen()),
                 );
               },
+              style: ElevatedButton.styleFrom(
+                minimumSize: Size(200, 150), // Tamanho do botão
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12), // Bordas arredondadas
+                ),
+                textStyle: TextStyle(
+                  fontSize: 20, // Tamanho da fonte
+                ),
+              ),
               child: Text('Marcar Ponto'),
             ),
+            SizedBox(height: 20), // Espaço entre os botões
             ElevatedButton(
               onPressed: () {
                 Navigator.push(
@@ -29,6 +39,15 @@ class HomeScreen extends StatelessWidget {
                   MaterialPageRoute(builder: (context) => PointsScreen()),
                 );
               },
+              style: ElevatedButton.styleFrom(
+                minimumSize: Size(200, 150), // Tamanho do botão
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12), // Bordas arredondadas
+                ),
+                textStyle: TextStyle(
+                  fontSize: 20, // Tamanho da fonte
+                ),
+              ),
               child: Text('Consultar Pontos'),
             ),
           ],

@@ -59,24 +59,112 @@ class _RegisterScreenState extends State<RegisterScreen> {
           children: [
             TextField(
               controller: _nameController,
-              decoration: InputDecoration(labelText: 'Nome Completo'),
+              decoration: InputDecoration(
+                labelText: 'Nome completo',
+                labelStyle: const TextStyle(
+                  color: Colors.white, // Cor branca para o label
+                  fontSize: 15.0, // Aumentar em 25%
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12), // Borda arredondada
+                  borderSide: const BorderSide(
+                    color: Colors.white, // Cor da borda
+                  ),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(
+                      12), // Borda arredondada quando focado
+                  borderSide: const BorderSide(
+                    color: Color(0xFFDABB7A), // Cor da borda quando focado
+                    width: 2.0,
+                  ),
+                ),
+              ),
+              style: const TextStyle(
+                  color: Colors.white), // Cor do texto dentro do campo
             ),
+            const SizedBox(height: 20),
             TextField(
               controller: _cpfController,
-              decoration: InputDecoration(labelText: 'CPF'),
+              decoration: InputDecoration(
+                labelText: 'CPF',
+                labelStyle: const TextStyle(
+                  color: Colors.white, // Cor branca para o label
+                  fontSize: 15.0, // Aumentar em 25%
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12), // Borda arredondada
+                  borderSide: const BorderSide(
+                    color: Colors.white, // Cor da borda
+                  ),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(
+                      12), // Borda arredondada quando focado
+                  borderSide: const BorderSide(
+                    color: Color(0xFFDABB7A), // Cor da borda quando focado
+                    width: 2.0,
+                  ),
+                ),
+              ),
+              style: const TextStyle(color: Colors.white),
               keyboardType: TextInputType.number,
             ),
+            const SizedBox(height: 20),
             TextField(
               controller: _passwordController,
-              decoration: InputDecoration(labelText: 'Senha'),
+              decoration: InputDecoration(
+                labelText: 'Senha',
+                labelStyle: const TextStyle(
+                  color: Colors.white, // Cor branca para o label
+                  fontSize: 15.0, // Aumentar em 25%
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12), // Borda arredondada
+                  borderSide: const BorderSide(
+                    color: Colors.white, // Cor da borda
+                  ),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(
+                      12), // Borda arredondada quando focado
+                  borderSide: const BorderSide(
+                    color: Color(0xFFDABB7A), // Cor da borda quando focado
+                    width: 2.0,
+                  ),
+                ),
+              ),
+              style: const TextStyle(color: Colors.white),
               obscureText: true,
             ),
+            const SizedBox(height: 20),
             TextField(
               controller: _emailController,
-              decoration: InputDecoration(labelText: 'Email'),
+              decoration: InputDecoration(
+                labelText: 'E-mail',
+                labelStyle: const TextStyle(
+                  color: Colors.white, // Cor branca para o label
+                  fontSize: 15.0, // Aumentar em 25%
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12), // Borda arredondada
+                  borderSide: const BorderSide(
+                    color: Colors.white, // Cor da borda
+                  ),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(
+                      12), // Borda arredondada quando focado
+                  borderSide: const BorderSide(
+                    color: Color(0xFFDABB7A), // Cor da borda quando focado
+                    width: 2.0,
+                  ),
+                ),
+              ),
+              style: const TextStyle(color: Colors.white),
               keyboardType: TextInputType.emailAddress,
             ),
-            SizedBox(height: 20),
+            SizedBox(height: 25),
             ElevatedButton(
               onPressed: _register,
               child: Text('Cadastrar'),
