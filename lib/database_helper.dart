@@ -29,7 +29,7 @@ class DatabaseHelper {
         CREATE TABLE users(
           id INTEGER PRIMARY KEY AUTOINCREMENT,
           full_name TEXT,
-          cpf TEXT UNIQUE,
+          cpf NUMBER UNIQUE,
           password TEXT,
           email TEXT
         )
