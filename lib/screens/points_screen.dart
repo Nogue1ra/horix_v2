@@ -28,6 +28,7 @@ class _PointsScreenState extends State<PointsScreen> {
   void _deletePoint(int id) async {
     await DatabaseHelper().deletePoint(id);
     _loadPoints(); // Recarrega os pontos após exclusão
+    _showAlert('Ponto excluído com sucesso.'); // Mensagem de sucesso
   }
 
   // Função para editar o horário de um ponto
@@ -40,6 +41,7 @@ class _PointsScreenState extends State<PointsScreen> {
       point['longitude'],
     );
     _loadPoints(); // Recarrega os pontos após edição
+    _showAlert('Horário editado com sucesso.'); // Mensagem de sucesso
   }
 
   // Função que exibe o diálogo de edição apenas do horário usando TimePicker
@@ -73,6 +75,25 @@ class _PointsScreenState extends State<PointsScreen> {
     return DateFormat('dd/MM/yyyy HH:mm').format(parsedDate); // Formato DD/MM/YYYY HH:MM
   }
 
+  // Função para mostrar um alerta
+  void _showAlert(String message) {
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('Atenção'),
+        content: Text(message),
+        actions: <Widget>[
+          TextButton(
+            child: const Text('OK'),
+            onPressed: () {
+              Navigator.of(ctx).pop();
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -80,7 +101,12 @@ class _PointsScreenState extends State<PointsScreen> {
         title: Text('Pontos Registrados'),
       ),
       body: _points.isEmpty
-          ? Center(child: Text('Nenhum ponto registrado.'))
+          ? Center(
+              child: Text(
+                'Nenhum ponto registrado.',
+                style: TextStyle(color: Colors.white), // Texto em branco
+              ),
+            )
           : ListView.builder(
               itemCount: _points.length,
               itemBuilder: (context, index) {
