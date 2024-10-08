@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:horix_v2/database_helper.dart';  // Certifique-se que este é o caminho correto
+import 'package:geolocator/geolocator.dart';  // Para acessar a localização do dispositivo
+import 'package:horix_v2/database_helper.dart';  // Certifique-se de que o caminho para o DatabaseHelper está correto
 
 class MarkPointScreen extends StatefulWidget {
   const MarkPointScreen({super.key});
@@ -10,17 +10,20 @@ class MarkPointScreen extends StatefulWidget {
 }
 
 class _MarkPointScreenState extends State<MarkPointScreen> {
-  bool _showMessage = false; // Controla a exibição da mensagem
+  bool _showMessage = false; // Controla a exibição da mensagem de sucesso
 
+  // Função responsável por marcar o ponto
   Future<void> _markPoint() async {
     bool serviceEnabled;
     LocationPermission permission;
 
+    // Verifica se o serviço de localização está habilitado
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
       return Future.error('Serviço de localização está desativado.');
     }
 
+    // Verifica se as permissões de localização foram concedidas
     permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
@@ -33,21 +36,23 @@ class _MarkPointScreenState extends State<MarkPointScreen> {
       return Future.error('Permissão de localização negada permanentemente.');
     }
 
+    // Obtém a posição atual do dispositivo
     Position position = await Geolocator.getCurrentPosition(
-      desiredAccuracy: LocationAccuracy.high,
+      desiredAccuracy: LocationAccuracy.high,  // Alta precisão
     );
 
-    DateTime now = DateTime.now();
+    DateTime now = DateTime.now(); // Obtém o horário atual
 
-    // Salva no banco de dados
+    // Insere os dados no banco de dados
     await DatabaseHelper().insertPoint(
-      now.toIso8601String(),
-      position.latitude,
-      position.longitude,
+      now.toIso8601String(),  // Converte o horário para o formato ISO
+      position.latitude,      // Latitude obtida
+      position.longitude,     // Longitude obtida
     );
 
+    // Atualiza o estado para exibir a mensagem de sucesso
     setState(() {
-      _showMessage = true; // Exibe a mensagem de sucesso
+      _showMessage = true;
     });
 
     // Oculta a mensagem após 3 segundos
@@ -62,41 +67,40 @@ class _MarkPointScreenState extends State<MarkPointScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Marcar Ponto'),
+        title: Text('Marcar Ponto'),  // Título da AppBar
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            // Removido os Texts que exibem a latitude, longitude e horário
-            SizedBox(height: 20), // Espaçamento entre os textos e o botão
+            SizedBox(height: 20),  // Espaçamento entre o topo e o botão
             ElevatedButton(
-              onPressed: _markPoint,
+              onPressed: _markPoint,  // Chama a função _markPoint ao pressionar
               style: ElevatedButton.styleFrom(
-                minimumSize: Size(100, 100), // Tamanho mínimo do botão
+                minimumSize: Size(100, 100),  // Define o tamanho mínimo do botão
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8), // Borda arredondada
+                  borderRadius: BorderRadius.circular(8),  // Define bordas arredondadas
                 ),
-                padding: EdgeInsets.all(20), // Padding para aumentar o botão
+                padding: EdgeInsets.all(20),  // Padding para aumentar o botão
               ),
               child: Text(
-                'Registrar Ponto',
+                'Registrar Ponto',  // Texto dentro do botão
                 style: TextStyle(
-                  fontSize: 20, // Aumenta o tamanho da letra
+                  fontSize: 20,  // Aumenta o tamanho da fonte
                 ),
               ),
             ),
-            SizedBox(height: 20), // Espaçamento
-            // Mensagem de sucesso
+            SizedBox(height: 20),  // Espaçamento entre o botão e a mensagem
+            // Exibe a mensagem de sucesso, se _showMessage for verdadeiro
             if (_showMessage)
               Container(
-                padding: EdgeInsets.all(12),
-                color: Colors.green,
+                padding: EdgeInsets.all(12),  // Padding interno da mensagem
+                color: Colors.green,  // Fundo verde para sucesso
                 child: Text(
-                  "Ponto registrado com sucesso!",
+                  "Ponto registrado com sucesso!",  // Texto da mensagem
                   style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 16,
+                    color: Colors.white,  // Texto branco
+                    fontSize: 16,  // Tamanho da fonte da mensagem
                   ),
                 ),
               ),
